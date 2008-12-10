@@ -232,7 +232,7 @@
         <li>Server maintenance? Application unavailable</li>
         <li>Server too busy? Application unavailable</li>
       </ul>
-      <p class="incremental">Just add more application boxes! Apache detects unavailable servers and drops them from cluster.</p>
+      <p class="incremental">Add more application boxes! Apache's mod_proxy_balancer doesn't care and will detect and drop unavailable servers from cluster, and MySQL is already accessed across the network.</p>
       <div class="handout">
       </div>
     </div>
