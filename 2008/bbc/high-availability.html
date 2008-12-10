@@ -58,6 +58,7 @@
         <li>One server per application</li>
         <li>User-generated content stored locally</li>
         <li>Logs stored on each box</li>
+        <li>No caching</li>
       </ul>
       <div style="float: right; margin-top: 0.5em;"><img src="2008/bbc-high-availability/ha-nothing.png" /></div>
       <div class="handout">
@@ -107,6 +108,7 @@
         <li>One server per application</li>
         <li>User-generated content stored locally</li>
         <li>Logs stored on each box</li>
+        <li>No caching</li>
       </ul>
       <div style="float: right; margin-top: 0.5em;"><img src="2008/bbc-high-availability/ha-apache.png" /></div>
       <div class="handout">
@@ -142,6 +144,7 @@
         <li>One server per application</li>
         <li>User-generated content stored locally</li>
         <li>Logs stored on each box</li>
+        <li>No caching</li>
       </ul>
       <div style="float: right; margin-top: 0.5em;"><img src="2008/bbc-high-availability/ha-mysql.png" /></div>
       <div class="handout">
@@ -169,6 +172,7 @@
         <li>One server per application</li>
         <li>User-generated content stored locally</li>
         <li>Logs stored on each box</li>
+        <li>No caching</li>
       </ul>
       <div style="float: right; margin-top: 0.5em;"><img src="2008/bbc-high-availability/ha-web-assets.png" /></div>
       <div class="handout">
@@ -213,6 +217,7 @@
         <li>One server per application</li>
         <li>User-generated content stored locally</li>
         <li>Logs stored on each box</li>
+        <li>No caching</li>
       </ul>
       <div style="float: right; margin-top: 0.5em;"><img src="2008/bbc-high-availability/message-bus.png" /></div>
       <div class="handout">
@@ -242,6 +247,7 @@
         <li>Many servers per application</li>
         <li>User-generated content stored locally</li>
         <li>Logs stored on each box</li>
+        <li>No caching</li>
       </ul>
       <div style="float: right; margin-top: 0.5em;"><img src="2008/bbc-high-availability/ha-application.png" /></div>
       <div class="handout">
@@ -309,6 +315,7 @@
         <li>Many servers per application</li>
         <li>Distributed, shared filestore for user-generated content</li>
         <li>Logs stored on each box</li>
+        <li>No caching</li>
       </ul>
       <div style="float: right; margin-top: 0.5em;"><img src="2008/bbc-high-availability/ha-filestore.png" /></div>
       <div class="handout">
@@ -337,12 +344,46 @@
         <li>Many servers per application</li>
         <li>Distributed, shared filestore for UGC</li>
         <li>Logs sent to log host</li>
+        <li>No caching</li>
       </ul>
-      <p>This is the current state of our architecture as at 2008-12-10.</p>
       <div style="float: right; margin-top: 0.5em;"><img src="2008/bbc-high-availability/logging.png" /></div>
       <div class="handout">
       </div>
     </div>
+
+
+    <div class="slide">
+      <h1>No caching</h1>
+      <ul>
+        <li>Slow changing or less time-sensitive data can be cached</li>
+        <li>No need to hit application &amp; database for each <code>select count(*) from brands;</code></li>
+      </ul>
+      <p class="incremental">Memcache provides an easy to use in-memory LRU cache.</p>
+      <p class="incremental">Don't just cache pages... cache <em>everything</em></p>
+      <p class="incremental">That said, caching is <em>hard</em> to get right and it may not be appropriate to use an LRU cache for your data (think sessions.) Start with the requests that hit your application hardest.</p>
+      <div class="handout">
+      </div>
+    </div>
+
+
+    <div class="slide">
+      <h1>After that change we have...</h1>
+      <ul style="float: left;">
+        <li>High Availability Web Tier</li>
+        <li>High Availability Database Tier</li>
+        <li>Assets served through application server</li>
+        <li>Hard or slow work done offline</li>
+        <li>Many servers per application</li>
+        <li>Distributed, shared filestore for UGC</li>
+        <li>Logs sent to log host</li>
+        <li>Slow-changing pages served from cache</li>
+      </ul>
+      <p>This is the current state of our architecture as at 2008-12-10.</p>
+      <div style="float: right; margin-top: 0.5em;"><img src="2008/bbc-high-availability/memcache.png" /></div>
+      <div class="handout">
+      </div>
+    </div>
+    
 
     <div class="slide">
       <h1>Are we done?</h1>
@@ -354,6 +395,9 @@
           <li>make the message bus failover nicely (PIT &amp; SM are doing this now)</li>
           <li>decide if using Perlbal makes Apache unnecessary</li>
           <li>investigate possibility of moving to Forge</li>
+          <li>work out how to estimate Memcache memory requirements</li>
+          <li>document how to scale MogileFS</li>
+          <li>show everyone how to use the services introduced in this talk</li>
           <li>... and probably more</li>
         </ul></li>
       </ul>
