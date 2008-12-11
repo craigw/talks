@@ -38,19 +38,19 @@
       <h3>Craig R Webster</h3>
       <h4>Software Engineer, BBC A&amp;Mi</h4>
     </div>
-    
+
     <div class="slide">
       <h1>This talk</h1>
       <ul>
         <li>How we evolved our architecture</li>
-        <li>Why we did it and why you should use it</lI>
+        <li>Why we did it and why you should use it</li>
         <li>No implementation details - they'll appear in future talks</li>
       </ul>
     </div>
-    
+
     <div class="slide">
       <h1>Where we were</h1>
-      <ul style="float: left;">
+      <ul>
         <li>Apache on each box</li>
         <li>MySQL on each box</li>
         <li>Assets served through application server</li>
@@ -60,7 +60,13 @@
         <li>Logs stored on each box</li>
         <li>No caching</li>
       </ul>
-      <div style="float: right; margin-top: 0.5em;"><img src="2008/bbc-high-availability/ha-nothing.png" /></div>
+      <div class="handout">
+      </div>
+    </div>
+
+    <div class="slide">
+      <h1>System Diagram</h1>
+      <div><img src="high-availability/ha-nothing.png" /></div>
       <div class="handout">
       </div>
     </div>
@@ -100,7 +106,7 @@
 
     <div class="slide">
       <h1>After that change we have...</h1>
-      <ul style="float: left;">
+      <ul>
         <li>High Availability Apache</li>
         <li>MySQL on each box</li>
         <li>Assets served through application server</li>
@@ -110,7 +116,13 @@
         <li>Logs stored on each box</li>
         <li>No caching</li>
       </ul>
-      <div style="float: right; margin-top: 0.5em;"><img src="2008/bbc-high-availability/ha-apache.png" /></div>
+      <div class="handout">
+      </div>
+    </div>
+
+    <div class="slide">
+      <h1>System Diagram</h1>
+      <div><img src="high-availability/ha-apache.png" /></div>
       <div class="handout">
       </div>
     </div>
@@ -136,7 +148,7 @@
 
     <div class="slide">
       <h1>After that change we have...</h1>
-      <ul style="float: left;">
+      <ul>
         <li>High Availability Web Tier</li>
         <li>High Availability Database Tier</li>
         <li>Assets served through application server</li>
@@ -146,7 +158,13 @@
         <li>Logs stored on each box</li>
         <li>No caching</li>
       </ul>
-      <div style="float: right; margin-top: 0.5em;"><img src="2008/bbc-high-availability/ha-mysql.png" /></div>
+      <div class="handout">
+      </div>
+    </div>
+
+    <div class="slide">
+      <h1>System Diagram</h1>
+      <div><img src="high-availability/ha-mysql.png" /></div>
       <div class="handout">
       </div>
     </div>
@@ -164,7 +182,7 @@
 
     <div class="slide">
       <h1>After that change we have...</h1>
-      <ul style="float: left;">
+      <ul>
         <li>High Availability Web Tier</li>
         <li>High Availability Database Tier</li>
         <li>Assets served through web tier</li>
@@ -174,7 +192,13 @@
         <li>Logs stored on each box</li>
         <li>No caching</li>
       </ul>
-      <div style="float: right; margin-top: 0.5em;"><img src="2008/bbc-high-availability/ha-web-assets.png" /></div>
+      <div class="handout">
+      </div>
+    </div>
+
+    <div class="slide">
+      <h1>System Diagram</h1>
+      <div><img src="high-availability/ha-web-assets.png" /></div>
       <div class="handout">
       </div>
     </div>
@@ -209,7 +233,7 @@
 
     <div class="slide">
       <h1>After that change we have...</h1>
-      <ul style="float: left;">
+      <ul>
         <li>High Availability Web Tier</li>
         <li>High Availability Database Tier</li>
         <li>Assets served through application server</li>
@@ -219,7 +243,13 @@
         <li>Logs stored on each box</li>
         <li>No caching</li>
       </ul>
-      <div style="float: right; margin-top: 0.5em;"><img src="2008/bbc-high-availability/message-bus.png" /></div>
+      <div class="handout">
+      </div>
+    </div>
+
+    <div class="slide">
+      <h1>System Diagram</h1>
+      <div><img src="high-availability/message-bus.png" /></div>
       <div class="handout">
       </div>
     </div>
@@ -239,7 +269,7 @@
 
     <div class="slide">
       <h1>After that change we have...</h1>
-      <ul style="float: left;">
+      <ul>
         <li>High Availability Web Tier</li>
         <li>High Availability Database Tier</li>
         <li>Assets served through application server</li>
@@ -249,7 +279,13 @@
         <li>Logs stored on each box</li>
         <li>No caching</li>
       </ul>
-      <div style="float: right; margin-top: 0.5em;"><img src="2008/bbc-high-availability/ha-application.png" /></div>
+      <div class="handout">
+      </div>
+    </div>
+
+    <div class="slide">
+      <h1>System Diagram</h1>
+      <div><img src="high-availability/ha-application.png" /></div>
       <div class="handout">
       </div>
     </div>
@@ -264,7 +300,7 @@
         <li>What happens when disk fills up? Shouldn't need to take down application to add more space.</li>
       </ul>
       <p class="incremental">Stop-gap: rsync assets to web tier. Can cause assets to appear sporadically until rsync runs. Not a nice user-experience.</p>
-      <p class="incremental">Real solution: distributed filestore</p>
+      <p class="incremental">Real solution: document store</p>
       <div class="handout">
       </div>
     </div>
@@ -285,7 +321,7 @@
     <div class="slide">
       <h1>Assets served by application!</h1>
       <ul>
-        <li>Now we have a distributed filestore everything is peachy, right?</li>
+        <li>Now we have a document store everything is peachy, right?</li>
         <li>No! Assets stored in MogileFS are being served by the application. Boo!</li>
       </ul>
       <p class="incremental">Perlbal can "re-proxy" MogileFS.</p>
@@ -307,17 +343,23 @@
 
     <div class="slide">
       <h1>After that change we have...</h1>
-      <ul style="float: left;">
+      <ul>
         <li>High Availability Web Tier</li>
         <li>High Availability Database Tier</li>
         <li>Assets served through application server</li>
         <li>Hard or slow work done offline</li>
         <li>Many servers per application</li>
-        <li>Distributed, shared filestore for user-generated content</li>
+        <li>Document store for user-generated content</li>
         <li>Logs stored on each box</li>
         <li>No caching</li>
       </ul>
-      <div style="float: right; margin-top: 0.5em;"><img src="2008/bbc-high-availability/ha-filestore.png" /></div>
+      <div class="handout">
+      </div>
+    </div>
+
+    <div class="slide">
+      <h1>System Diagram</h1>
+      <div><img src="high-availability/document-store.png" /></div>
       <div class="handout">
       </div>
     </div>
@@ -336,21 +378,26 @@
 
     <div class="slide">
       <h1>After that change we have...</h1>
-      <ul style="float: left;">
+      <ul>
         <li>High Availability Web Tier</li>
         <li>High Availability Database Tier</li>
         <li>Assets served through application server</li>
         <li>Hard or slow work done offline</li>
         <li>Many servers per application</li>
-        <li>Distributed, shared filestore for UGC</li>
+        <li>Document store for UGC</li>
         <li>Logs sent to log host</li>
         <li>No caching</li>
       </ul>
-      <div style="float: right; margin-top: 0.5em;"><img src="2008/bbc-high-availability/logging.png" /></div>
       <div class="handout">
       </div>
     </div>
 
+    <div class="slide">
+      <h1>System Diagram</h1>
+      <div><img src="high-availability/logging.png" /></div>
+      <div class="handout">
+      </div>
+    </div>
 
     <div class="slide">
       <h1>No caching</h1>
@@ -365,25 +412,28 @@
       </div>
     </div>
 
-
     <div class="slide">
       <h1>After that change we have...</h1>
-      <ul style="float: left;">
+      <ul>
         <li>High Availability Web Tier</li>
         <li>High Availability Database Tier</li>
         <li>Assets served through application server</li>
         <li>Hard or slow work done offline</li>
         <li>Many servers per application</li>
-        <li>Distributed, shared filestore for UGC</li>
+        <li>Document store for UGC</li>
         <li>Logs sent to log host</li>
         <li>Slow-changing pages served from cache</li>
       </ul>
-      <p>This is the current state of our architecture as at 2008-12-10.</p>
-      <div style="float: right; margin-top: 0.5em;"><img src="2008/bbc-high-availability/memcache.png" /></div>
       <div class="handout">
       </div>
     </div>
-    
+
+    <div class="slide">
+      <h1>System Diagram (Current at 2008-12-10)</h1>
+      <div><img src="high-availability/memcache.png" /></div>
+      <div class="handout">
+      </div>
+    </div>
 
     <div class="slide">
       <h1>Are we done?</h1>
@@ -420,20 +470,20 @@
     </div>
 
     <!--
-    <div class="slide">
-      <h1>[slide title]</h1>
-      <ul>
-        <li>[point one]</li>
-        <li>[point two]</li>
-        <li>[point three]</li>
-        <li>[point four]</li>
-        <li>[point five]</li>
-      </ul>
-      <div class="handout">
-        [any material that should appear in print but not on the slide]
+      <div class="slide">
+        <h1>[slide title]</h1>
+        <ul>
+          <li>[point one]</li>
+          <li>[point two]</li>
+          <li>[point three]</li>
+          <li>[point four]</li>
+          <li>[point five]</li>
+        </ul>
+        <div class="handout">
+          [any material that should appear in print but not on the slide]
+        </div>
       </div>
-    </div>
-  -->
+    -->
   </div>
 </body>
 </html>
