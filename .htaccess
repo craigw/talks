@@ -1,0 +1,3 @@
+RewriteRule ^([^.]+)$ $1.html [QSA]
+IndexIgnore talks/ui
+IndexOptions ScanHTMLTitles FancyIndexing IconsAreLinks FoldersFirst
