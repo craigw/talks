@@ -38,6 +38,22 @@
       <h2>For great <strike>justice</strike> concurrency</h2>
       <h3>Craig R Webster</h3>
       <h4>Senior Software Engineer, Agency.com</h4>
+      <div class="handout">
+        <p>Hi, I'm Craig and I'm a senior software engineer at
+        Agency.com. Mostly I look after the Rails projects there, but
+        when Rails is your hammer everything looks like a thumb. It's
+        good to have a decent idea of the technologies available
+        outside the Rails and Ruby world.</p>
+        <p>I started to get interested in what Javascript could do about
+        three years ago when I saw Rails spit out some mangled code to
+        make a delete link.</p>
+        <p>Recently I've been hearing whispers about node.js being the
+        new hotness and figured I'd take a look. I had originally
+        assumed it was something like reverse-http. Totally wrong.</p>
+        <p>I've been using node.js for a few weeks now for toy projects
+        and I'd like to show you how I got started and what I found
+        out.</p>
+      </div>
     </div>
 
     <div class="slide">
@@ -48,13 +64,93 @@
         <li>Interrupting the client</li>
         <li>Crazy ideas</li>
       </ul>
+      <div class="handout">
+        <p>In this talk I'll go over what node.js actually is, why I'm
+        interested in it, how to install it and get a simple
+        application running, the sort of clients that it enables us to
+        build and some crazy ideas that I think could be adopted to fit
+        into a node.js world.</p>
+      </div>
     </div>
 
     <div class="slide">
       <h1>What is node.js?</h1>
-      <p>Server-side Javascript</p>
-      <p class="incremental">Evented, non-blocking I/O</p>
-      <p class="incremental">Built on Google's V8 engine - fast!</p>
+      <ul>
+        <li class="incremental">Javascript framework for building servers</li>
+        <li class="incremental">Efficient - evented, non-blocking I/O</li>
+        <li class="incremental">Simple - designed to avoid complexity traditionally encountered here</li>
+        <li class="incremental">Fast - built on Google's V8 Javascript engine</li>
+        <li class="incremental">Extensible - by wider community, uses <a href="http://commonjs.org/">CommonJS</a></li>
+      </ul>
+      <div class="handout">
+        <p>What is node.js? There's no one-line slogan on the
+        nodejs.org site and the documentation is a little unclear about
+        exactly what node.js is rather than what it enables us to do,
+        but it's essentially a Javascript framework geared towards
+        building network services - servers. I guess it's a little like
+        Erlang/OTP's gen_server behavior... just without process
+        supervision and hot code swapping.</p>
+        <p>It uses an event-driven architecture (epoll, kqueue, or
+        /dev/poll) and non-blocking I/O (select) so it doesn't need a
+        bunch of native or green threads to avoid blocking. Pretty
+        handy on memory and CPU that.</p>
+        <p>When an event occurs node.js wakes up and executes the
+        appropriate callback for that event. Callbacks are developer
+        defined Javascript functions - nice and simple.</p>
+        <p>Node.js runs on Google's V8 Javascript engine which uses a
+        bunch of funky techniques to make your Javascript run
+        <em>fast</em>. V8 is included in node.js so you don't need to
+        worry about installing it separately.</p>
+        <p>By moving towards using the CommonJS specification for
+        modules node.js is allowing wider re-use of code developed for
+        node.js applications elsewhere - and easing the process of
+        bringing that code to be brought into node.js projects.</p>
+      </div>
+    </div>
+
+    <div class="slide">
+      <h1>Why is it exciting?</h1>
+      <h2>The people are available</h2>
+      <ul>
+        <li class="incremental">Javascript has wide adoption in web UI world</li>
+        <li class="incremental">Majority of web developers have a basic grasp of Javascript</li>
+        <li class="incremental">No more client/server divide - Javascript as common language</li>
+      </ul>
+      <div class="handout">
+      </div>
+    </div>
+
+    <div class="slide">
+      <h1>Why is it exciting?</h1>
+      <h2>The technology is known</h2>
+      <ul>
+        <li class="incremental">Callbacks/closures are familiar in the Javascript world</li>
+        <li class="incremental">No more client/server technology divide</li>
+        <li class="incremental">Javascript now available for more general problems</li>
+      </ul>
+      <div class="handout">
+      </div>
+    </div>
+
+    <div class="slide">
+      <h1>Why is it exciting?</h1>
+      <h2>All Your Base Are Belong to Us</h2>
+      <p>Bottom line, more people are available and able to to more with a language they already know.</p>
+      <div class="handout">
+      </div>
+    </div>
+
+    <div class="slide">
+      <h1>Installing</h1>
+      <ul>
+        <li class="incremental">Takes ~2 minutes</li>
+        <li class="incremental"><code>git clone git://github.com/ry/node.git</code></li>
+        <li class="incremental"><code>cd node</code></li>
+        <li class="incremental"><code>./configure</code></li>
+        <li class="incremental"><code>make</code></li>
+        <li class="incremental"><code>make test</code> (optional)</li>
+        <li class="incremental"><code>make install</code></li>
+      </ul>
       <div class="handout">
       </div>
     </div>
