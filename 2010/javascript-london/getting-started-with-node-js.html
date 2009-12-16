@@ -44,9 +44,16 @@
         when Rails is your hammer everything looks like a thumb. It's
         good to have a decent idea of the technologies available
         outside the Rails and Ruby world.</p>
-        <p>I started to get interested in what Javascript could do about
-        three years ago when I saw Rails spit out some mangled code to
-        make a delete link.</p>
+        <p>I've been using Javascript to support work that I do for the
+        past 8 or so years but I started to get raelly interested in
+        what Javascript could do about three years ago when I saw Rails
+        spit out some mangled code to make a link POST some data...
+        Basically thought "this is horrible, there has to be a better
+        way". Through that I got into unobtrusive enhancement using
+        Javascript and from there into reverse-http for more complex
+        communication than would normally be available to a web browser.
+        I'd seen a few applications use Javascript in environments
+        outside the browser but hadn't really played with it.</p>
         <p>Recently I've been hearing whispers about node.js being the
         new hotness and figured I'd take a look. I had originally
         assumed it was something like reverse-http. Totally wrong.</p>
@@ -61,15 +68,15 @@
       <ul>
         <li>A brief introduction to node.js</li>
         <li>Building an application</li>
-        <li>Interrupting the client</li>
+        <li>Ways of interacting with clients</li>
         <li>Crazy ideas</li>
       </ul>
       <div class="handout">
         <p>In this talk I'll go over what node.js actually is, why I'm
         interested in it, how to install it and get a simple
-        application running, the sort of clients that it enables us to
-        build and some crazy ideas that I think could be adopted to fit
-        into a node.js world.</p>
+        application running, the sort of client interactions that it
+        enables us to use and some crazy ideas that I think could be
+        adopted to fit into a node.js world.</p>
       </div>
     </div>
 
@@ -83,12 +90,14 @@
         <li class="incremental">Extensible - by wider community, uses <a href="http://commonjs.org/">CommonJS</a></li>
       </ul>
       <div class="handout">
-        <p>What is node.js? There's no one-line slogan on the
+        <p>This talk is about node.js so a description of node.js would
+        be handy. Unfortunately there's no one-line slogan on the
         nodejs.org site and the documentation is a little unclear about
-        exactly what node.js is rather than what it enables us to do,
-        but it's essentially a Javascript framework geared towards
-        building network services - servers. I guess it's a little like
-        Erlang/OTP's gen_server behavior... just without process
+        exactly what node.js is, prefering instead to talk about what
+        it allows us to do, and giving examples of how to do that.
+        After a little digging I found out that it's a Javascript
+        framework geared towards building servers. I guess it's a little
+        like Erlang/OTP's gen_server behavior... just without process
         supervision and hot code swapping.</p>
         <p>It uses an event-driven architecture (epoll, kqueue, or
         /dev/poll) and non-blocking I/O (select) so it doesn't need a
@@ -99,8 +108,8 @@
         defined Javascript functions - nice and simple.</p>
         <p>Node.js runs on Google's V8 Javascript engine which uses a
         bunch of funky techniques to make your Javascript run
-        <em>fast</em>. V8 is included in node.js so you don't need to
-        worry about installing it separately.</p>
+        <em>fast</em>. V8 is included in the node.js distribution so you
+        don't need to worry about installing it separately.</p>
         <p>By moving towards using the CommonJS specification for
         modules node.js is allowing wider re-use of code developed for
         node.js applications elsewhere - and easing the process of
@@ -110,33 +119,39 @@
 
     <div class="slide">
       <h1>Why is it exciting?</h1>
-      <h2>The people are available</h2>
       <ul>
-        <li class="incremental">Javascript has wide adoption in web UI world</li>
-        <li class="incremental">Majority of web developers have a basic grasp of Javascript</li>
-        <li class="incremental">No more client/server divide - Javascript as common language</li>
+        <li>Many people know Javascript</li>
+        <li>Similar to other languages - can cross-train</li>
+        <li>Widely taught - courses are readily available</li>
+        <li>Low enterprise impedance - already widely used and generally accepted</li>
+        <li>Unifies "front end" and "back end" teams</li>
       </ul>
       <div class="handout">
-      </div>
-    </div>
-
-    <div class="slide">
-      <h1>Why is it exciting?</h1>
-      <h2>The technology is known</h2>
-      <ul>
-        <li class="incremental">Callbacks/closures are familiar in the Javascript world</li>
-        <li class="incremental">No more client/server technology divide</li>
-        <li class="incremental">Javascript now available for more general problems</li>
-      </ul>
-      <div class="handout">
-      </div>
-    </div>
-
-    <div class="slide">
-      <h1>Why is it exciting?</h1>
-      <h2>All Your Base Are Belong to Us</h2>
-      <p>Bottom line, more people are available and able to to more with a language they already know.</p>
-      <div class="handout">
+        <p>What makes node.js exciting? Why shouldn't I just use
+        Erlang? That tackles a similar set of problems and is well
+        tested and highly regarded in this area.</p>
+        <p>Well, mainly it's about Javascript. Erlang is seen as a hard
+        language to get into because it's different to what most people
+        are used to working with. For Javascript this isn't a problem
+        since many people already use Javascript day-to-day.</p>
+        <p>Where people don't already use Javascript but do use some
+        other language it's pretty easy to cross-train because it looks
+        and feels similar to Ruby, PHP or Perl - or at least it's not
+        different enough to cause serious issues.</p>
+        <p>Even if you need to start from scratch, Javascript training
+        courses are readily available.</p>
+        <p>There's also very little to worry about in terms of company
+        adoption since Javascript is most likely already used elsewhere
+        in the company. It's a smaller step to adopt Javascript as a
+        server-side language than it is to introduce something like Go
+        or Erlang.</p>
+        <p>Since it's Javascript we should hopefully have less of a
+        divide between those who work on the client-side and those who
+        work on the server-side. We're all talking the same language
+        now, and while we'll continue to have specialities there's no
+        reason that a client-side developer can't change the behaviour
+        of the server. This could be seen as a gateway for learning
+        more about the other side of the divide for either team.</p>
       </div>
     </div>
 
@@ -152,6 +167,8 @@
         <li><code>make install</code></li>
       </ul>
       <div class="handout">
+        <p>Installing node.js takes just a couple of minutes. Clone the
+        repository and do the traditional compilation dance.</p>
       </div>
     </div>
 
