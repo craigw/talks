@@ -123,7 +123,8 @@
         <li>Many people know Javascript</li>
         <li>Similar to other languages - can cross-train</li>
         <li>Widely taught - courses are readily available</li>
-        <li>Low enterprise impedance - already widely used and generally accepted</li>
+        <li>Low enterprise impedance - already widely used and
+        generally accepted</li>
         <li>Unifies "front end" and "back end" teams</li>
       </ul>
       <div class="handout">
@@ -169,6 +170,55 @@
       <div class="handout">
         <p>Installing node.js takes just a couple of minutes. Clone the
         repository and do the traditional compilation dance.</p>
+      </div>
+    </div>
+
+    <div class="slide">
+      <h1>Hello, World!</h1>
+      <p>Canonical first program is pretty easy to implement.</p>
+      <p><pre><code class="javascript">var sys = require('sys');
+sys.puts('Hello, World!');</code></pre><p>
+      <p>Running it is simple too.</p>
+      <p><pre><code class="bash">node hello-world.js</code></pre></p>
+      <div class="handout">
+        <p>require is a <a href="http://commonjs.org/">CommonJS</a>
+        construct to import Javascript modules. CommonJS is an attempt
+        to expand the standard library provided by the Javascript
+        specification into something that is useful beyond the
+        browser-based world that Javascript is normally confined to.
+        It's been around for bout a year and V8 is just one of many
+        places that it's being implemented.</p>
+        <p><code class="javascript">sys</code> is a built-in node.js
+        module for printing to standard out ("puts"), printing
+        debugging information (which it does synchronously unlike most
+        other I/O operations), inspection of objects, and external
+        command execution.</p>
+        <p>There are other built-in modules for handling things like
+        file I/O (the POSIX module), HTTP servers (there's a server and
+        a client implementation in the HTTP module), generic TCP
+        servers (the TCP module), DNS lookups (the DNS module) and
+        several others. It's also possible to write your own according
+        to the CommonJS specification.</p>
+      </div>
+    </div>
+
+    <div class="slide">
+      <h1>Hello, Interwebs!</h1>
+      <p>Of course, node.js aims to help us build servers. So let's do
+      that.</p>
+      <p><pre><code class="javascript">var sys  = require("sys"),
+    http = require("http");
+http.createServer(function(request, response) {
+  var headers = { "Content-Type": "text/plain" };
+  response.sendHeader(200, headers);
+  response.sendBody("Hello World\n");
+  response.finish();
+}).listen(8000);
+sys.puts("&gt; Running at http://127.0.0.1:8000/");</code></pre><p>
+    <p><pre><code class="bash">node hello-interwebs.js
+&gt; Running at http://127.0.0.1:8000/</code></pre></p>
+      <div class="handout">
+        <p>...</p>
       </div>
     </div>
 
