@@ -6,4 +6,4 @@ http.createServer(function(request, response) {
   response.sendBody("Hello, World!\n");
   response.finish();
 }).listen(8000);
-  sys.puts("> Running at http://127.0.0.1:8000/");
+sys.puts("> Running at http://127.0.0.1:8000/");

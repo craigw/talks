@@ -8,4 +8,4 @@ http.createServer(function(request, response) {
     response.finish();
   }, 2000);
 }).listen(8000);
-  sys.puts("> Running at http://127.0.0.1:8000/");
+sys.puts("> Running at http://127.0.0.1:8000/");
