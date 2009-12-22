@@ -204,8 +204,7 @@ sys.puts('Hello, World!');</code></pre><p>
 
     <div class="slide">
       <h1>Hello, Interwebs!</h1>
-      <p>Of course, node.js aims to help us build servers. So let's do
-      that.</p>
+      <p>Node.js helps us build servers. Here's a simple HTTP server.</p>
       <p><pre><code class="javascript">var sys  = require("sys"),
     http = require("http");
 http.createServer(function(request, response) {
@@ -216,6 +215,27 @@ http.createServer(function(request, response) {
 }).listen(8000);
 sys.puts("&gt; Running at http://127.0.0.1:8000/");</code></pre><p>
     <p><pre><code class="bash">node hello-interwebs.js
+&gt; Running at http://127.0.0.1:8000/</code></pre></p>
+      <div class="handout">
+        <p>...</p>
+      </div>
+    </div>
+
+    <div class="slide">
+      <h1>Blocking? What blocking?</h1>
+      <p>Node.js is great for massive concurrency.</p>
+      <p><pre><code class="javascript">var sys  = require("sys"),
+    http = require("http");
+http.createServer(function(request, response) {
+  setTimeout(function() {
+    var headers = { "Content-Type": "text/plain" };
+    response.sendHeader(200, headers);
+    response.sendBody("Hello World\n");
+    response.finish();
+  }, <em>2000</em>);
+}).listen(8000);
+sys.puts("&gt; Running at http://127.0.0.1:8000/");</code></pre><p>
+    <p><pre><code class="bash">node hello-concurrency.js
 &gt; Running at http://127.0.0.1:8000/</code></pre></p>
       <div class="handout">
         <p>...</p>
