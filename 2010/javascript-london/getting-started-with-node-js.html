@@ -181,15 +181,22 @@ sys.puts('Hello, World!');</code></pre><p>
       <p>Running it is simple too.</p>
       <p><pre><code class="bash">node hello-world.js</code></pre></p>
       <div class="handout">
-        <p>require is a <a href="http://commonjs.org/">CommonJS</a>
-        construct to import Javascript modules. CommonJS is an attempt
-        to expand the standard library provided by the Javascript
-        specification into something that is useful beyond the
-        browser-based world that Javascript is normally confined to.
-        It's been around for bout a year and V8 is just one of many
-        places that it's being implemented.</p>
-        <p><code class="javascript">sys</code> is a built-in node.js
-        module for printing to standard out ("puts"), printing
+        <p>Now we're installed, let's take a look at what a node.js
+        program actually looks like. This is a typical first program
+        and just prints "Hello World" on the screen. There are a few
+        things to notice about it compared to what you're probably used
+        to with Javascript.</p>
+        <p>First, what's this "require" command? Well, require is a
+        <a href="http://commonjs.org/">CommonJS</a> construct to import
+        Javascript modules. CommonJS is an attempt to expand the
+        standard library provided by the Javascript specification into
+        something that is useful beyond the browser-based world that
+        Javascript is normally confined to. It's been around for about
+        a year and V8 is just one of many places that it's being
+        implemented.</p>
+        <p>Require takes as an argument the module name that you wish
+        to load. <code class="javascript">sys</code> is a built-in
+        node.js module for printing to standard out ("puts"), printing
         debugging information (which it does synchronously unlike most
         other I/O operations), inspection of objects, and external
         command execution.</p>
@@ -217,28 +224,34 @@ sys.puts("&gt; Running at http://127.0.0.1:8000/");</code></pre><p>
     <p><pre><code class="bash">node hello-interwebs.js
 &gt; Running at http://127.0.0.1:8000/</code></pre></p>
       <div class="handout">
-        <p>...</p>
+        <p>Printing to the screen is great, but node.js is about
+        building servers. I mentioned in the last slide that there's a
+        module for HTTP. Here's how it can be used to produce a simple
+        web server. Run the code and you'll get a server listening on
+        port 8000 that'll say "Hello World" to anyone that connects.</p>
       </div>
     </div>
 
     <div class="slide">
-      <h1>Blocking? What blocking?</h1>
-      <p>Node.js is great for massive concurrency.</p>
-      <p><pre><code class="javascript">var sys  = require("sys"),
-    http = require("http");
-http.createServer(function(request, response) {
-  setTimeout(function() {
-    var headers = { "Content-Type": "text/plain" };
-    response.sendHeader(200, headers);
-    response.sendBody("Hello World\n");
-    response.finish();
-  }, <em>2000</em>);
-}).listen(8000);
-sys.puts("&gt; Running at http://127.0.0.1:8000/");</code></pre><p>
-    <p><pre><code class="bash">node hello-concurrency.js
-&gt; Running at http://127.0.0.1:8000/</code></pre></p>
+      <h1>Pointless Benchmark (1)</h1>
+      <p><img src="../../media/node-js-concurrency-speed.jpg" /></p>
       <div class="handout">
-        <p>...</p>
+        <p>No presentation about a new technology would be complete
+        without some pretty graphs of pointless benchmarks, so here one
+        is. This shows how node.js compares to Apache serving static
+        files in terms of speed compared to the number of concurrent
+        connections to the server.</p>
+      </div>
+    </div>
+
+    <div class="slide">
+      <h1>Pointless Benchmark (2)</h1>
+      <p><img src="../../media/node-js-memory-use.jpg" /></p>
+      <div class="handout">
+        <p>Here's the memory use for each server during the benchmark.
+        As you can see, ______ wins out against _______. So if you're
+        ever running benchmarks and want the best response there,
+        y'know, use that.</p>
       </div>
     </div>
 
