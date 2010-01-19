@@ -83,10 +83,9 @@
     <div class="slide">
       <h1>What is node.js?</h1>
       <ul>
-        <li class="incremental">Javascript framework for building servers</li>
-        <li class="incremental">Efficient - evented, non-blocking I/O</li>
-        <li class="incremental">Simple - designed to avoid complexity traditionally encountered here</li>
-        <li class="incremental">Fast - built on Google's V8 Javascript engine</li>
+        <li class="incremental">Javascript framework for building scalable servers</li>
+        <li class="incremental">Efficient - evented, (mostly) non-blocking I/O</li>
+        <li class="incremental">Simple - designed to avoid complexity around threading</li>
         <li class="incremental">Extensible - by wider community, uses <a href="http://commonjs.org/">CommonJS</a></li>
       </ul>
       <div class="handout">
@@ -99,21 +98,166 @@
         framework geared towards building servers. I guess it's a little
         like Erlang/OTP's gen_server behavior... just without process
         supervision and hot code swapping.</p>
-        <p>It uses an event-driven architecture (epoll, kqueue, or
-        /dev/poll) and non-blocking I/O (select) so it doesn't need a
-        bunch of native or green threads to avoid blocking. Pretty
-        handy on memory and CPU that.</p>
-        <p>When an event occurs node.js wakes up and executes the
-        appropriate callback for that event. Callbacks are developer
-        defined Javascript functions - nice and simple.</p>
-        <p>Node.js runs on Google's V8 Javascript engine which uses a
-        bunch of funky techniques to make your Javascript run
-        <em>fast</em>. V8 is included in the node.js distribution so you
-        don't need to worry about installing it separately.</p>
+        <p>Simple...</p>
         <p>By moving towards using the CommonJS specification for
         modules node.js is allowing wider re-use of code developed for
         node.js applications elsewhere - and easing the process of
         bringing that code to be brought into node.js projects.</p>
+      </div>
+    </div>
+
+    <div class="slide">
+      <h1>Evented I/O</h1>
+      <p>Traditional I/O:</p>
+      <pre><code>data = file.read("/foo/bar");
+  // wait...
+  doSomething(data);</pre></code>
+      <p>Evented I/O:</p>
+      <pre><code>file.read("/foo/bar", function(data) {
+        // called after data is read
+        doSomething(data);
+      });
+      otherThing(); // execute immediately;</code></pre>
+      <div class="handout">
+        <p>Traditional I/O means that when you read a file you have to
+        wait for the data to be read before you can do anything else.
+        You ask for the data, you wait for it to be read, you do
+        something with the data.</p>
+        <p>By using evented I/O you can register callbacks which are
+        called when an event - such as data having been read - has
+        completed. After registering a callback the programme continues
+        with no wait. When an event occurs node.js wakes up and
+        executes the appropriate callback for that event. Callbacks
+        are developer defined Javascript functions - nice and
+        simple.</p>
+        <p>It's not impossible to do this with most languages, but it
+        can get pretty complex and CPU or memory intensive. Node.js
+        uses epoll, kqueue, or /dev/poll) and non-blocking I/O calls
+        like select so it doesn't need a bunch of native or green
+        threads to avoid blocking. You don't have to worry about
+        handling all that stuff.</p>
+      </div>
+    </div>
+
+    <div class="slide">
+      <h1>CommonJS Modules</h1>
+      <p>A simple, standardised way of providing Javascript
+      libraries.</p>
+      <p>Define methods to make available to the world using
+      <code>exports</code>.</p>
+      <pre><code class="javascript">exports.sum = function(a, b) {
+  return a + b;
+}</pre></code>
+      <p>Import modules using <code>require</code>.</p>
+      <pre><code class="javascript">var math = require("./math");
+  math.sum(1, 2); // => 3</code></pre>
+      <div class="handout">
+        <p>Node.js is easily extensible because it makes use of
+        CommonJS, a simple standard for building Javascript
+        libraries.</p>
+        <p>So, what's this "require" command? Well, require is a
+        <a href="http://commonjs.org/">CommonJS</a> construct to import
+        Javascript modules. CommonJS is an attempt to expand the
+        standard library provided by the Javascript specification into
+        something that is useful beyond the browser-based world that
+        Javascript is normally confined to. It's been around for about
+        a year and V8 is just one of many places that it's being
+        implemented.</p>
+        <p>Require takes as an argument the module name that you wish
+        to load. <code class="javascript">sys</code> is a built-in
+        node.js module for printing to standard out ("puts"), printing
+        debugging information (which it does synchronously unlike most
+        other I/O operations), inspection of objects, and external
+        command execution.</p>
+        <p>There are other built-in modules for handling things like
+        file I/O (the POSIX module), HTTP servers (there's a server and
+        a client implementation in the HTTP module), generic TCP
+        servers (the TCP module), DNS lookups (the DNS module) and
+        several others. It's also possible to write your own according
+        to the CommonJS specification.</p>
+        <p>To write your own you define properties on the exports object
+        which are then returned from a <code>require()</code> on that
+        file. This slide is a very simple example of how that would
+        work. There are plenty of libraries out there already, and
+        node.js comes with a few built-in.</p>
+      </div>
+    </div>
+
+    <div class="slide">
+      <h1>Hello, World!</h1>
+      <p>Canonical first program is pretty easy to implement.</p>
+      <p><pre><code class="javascript">var sys = require('sys');
+sys.puts('Hello, World!');</code></pre><p>
+      <p>Running it is simple too.</p>
+      <p><pre><code class="bash">node hello-world.js</code></pre></p>
+      <div class="handout">
+        <p>Let's take a look at what a node.js program actually looks
+        like. This is a typical first program and just prints "Hello,
+        World!" on the screen. <code>sys</code> is one of those
+        CommonJS type modules that'd built-in to node.js. It provides
+        a few output functions -- something like
+        <code>System.out</code>for Java.</p>
+        <p>What other modules are available?</p>
+      </div>
+    </div>
+
+    <div class="slide">
+      <h1>Hello, Interwebs!</h1>
+      <p>Node.js helps us build servers. Here's a simple HTTP server.</p>
+      <p><pre><code class="javascript">var sys  = require("sys"),
+    http = require("http");
+http.createServer(function(request, response) {
+  var headers = { "Content-Type": "text/plain" };
+  response.sendHeader(200, headers);
+  response.sendBody("Hello, World!\n");
+  response.finish();
+}).listen(8000);
+sys.puts("&gt; Running at http://127.0.0.1:8000/");</code></pre><p>
+    <p><pre><code class="bash">node hello-interwebs.js
+&gt; Running at http://127.0.0.1:8000/</code></pre></p>
+      <div class="handout">
+        <p>Here's how node.js can be used to produce a simple web
+        server. Run the code and you'll get a server listening on port
+        8000 that'll say "Hello, World!" to anyone that connects.</p>
+      </div>
+    </div>
+
+    <div class="slide">
+      <h1>Hello, Internets!</h1>
+      <p>Here's a simple TCP server (the echo service).</p>
+      <p><pre><code class="javascript">var tcp  = require("tcp");
+tcp.createServer(function(socket) {
+  socket.addListener('receive', function(data) {
+    socket.send(data);
+  })
+}).listen(8001);</code></pre><p>
+    <p><pre><code class="bash">node hello-interwebs.js
+&gt; Running at http://127.0.0.1:8000/</code></pre></p>
+      <div class="handout">
+        <p>Echo is a TCP service that repeats whatever data you
+        send it. Here's how to implement it in node.js.</p>
+        <p>Other modules include POSIX (for working with files),
+        Multipart for parsing submitted form-data, DNS for working with
+        names and IP addresses, Assert for writing tests, path for
+        working with filesystem paths, URL for parsing URIs and Query
+        String for doing the same with query-strings.</p>
+      </div>
+    </div>
+
+    <div class="slide">
+      <h1>Promises, promises</h1>
+      <p>Most I/O operations return a promise.</p>
+      <p>Promises emit events and you can define callbacks on them.</p>
+      <p>Some strangeness about ordering - requires a re-think.</p>
+      <pre><code class="javascript">posix.rename("/tmp/hello", "/tmp/world");
+      posix.unlink("/tmp/world");</code></pre>
+      <p>Instead:</p>
+      <pre><code class="javascript">var promise = posix.rename("/tmp/hello", "/tmp/world");
+      promise.addCallback(function() {
+        posix.unlink("/tmp/world");
+      };</code></pre>
+      <div class="handout">
+        <p>... promises ...</p>
       </div>
     </div>
 
@@ -156,104 +300,24 @@
       </div>
     </div>
 
-    <div class="slide">
-      <h1>Installing</h1>
-      <ul>
-        <li>Takes ~2 minutes</li>
-        <li><code>git clone git://github.com/ry/node.git</code></li>
-        <li><code>cd node</code></li>
-        <li><code>./configure</code></li>
-        <li><code>make</code></li>
-        <li><code>make test</code> (optional)</li>
-        <li><code>make install</code></li>
-      </ul>
-      <div class="handout">
-        <p>Installing node.js takes just a couple of minutes. Clone the
-        repository and do the traditional compilation dance.</p>
+      <div class="slide">
+        <h1>Installing</h1>
+        <ul>
+          <li>Takes ~2 minutes</li>
+          <li><code>git clone git://github.com/ry/node.git</code></li>
+          <li><code>cd node</code></li>
+          <li><code>./configure</code></li>
+          <li><code>make</code></li>
+          <li><code>make test</code> (optional)</li>
+          <li><code>make install</code></li>
+        </ul>
+        <div class="handout">
+          <p>If you're thinking "great, how do I get started?" then
+          installing node.js takes just a couple of minutes. Clone the
+          repository and do the traditional compilation dance and
+          you're set. Let me know how you get on.</p>
+        </div>
       </div>
-    </div>
-
-    <div class="slide">
-      <h1>Hello, World!</h1>
-      <p>Canonical first program is pretty easy to implement.</p>
-      <p><pre><code class="javascript">var sys = require('sys');
-sys.puts('Hello, World!');</code></pre><p>
-      <p>Running it is simple too.</p>
-      <p><pre><code class="bash">node hello-world.js</code></pre></p>
-      <div class="handout">
-        <p>Now we're installed, let's take a look at what a node.js
-        program actually looks like. This is a typical first program
-        and just prints "Hello World" on the screen. There are a few
-        things to notice about it compared to what you're probably used
-        to with Javascript.</p>
-        <p>First, what's this "require" command? Well, require is a
-        <a href="http://commonjs.org/">CommonJS</a> construct to import
-        Javascript modules. CommonJS is an attempt to expand the
-        standard library provided by the Javascript specification into
-        something that is useful beyond the browser-based world that
-        Javascript is normally confined to. It's been around for about
-        a year and V8 is just one of many places that it's being
-        implemented.</p>
-        <p>Require takes as an argument the module name that you wish
-        to load. <code class="javascript">sys</code> is a built-in
-        node.js module for printing to standard out ("puts"), printing
-        debugging information (which it does synchronously unlike most
-        other I/O operations), inspection of objects, and external
-        command execution.</p>
-        <p>There are other built-in modules for handling things like
-        file I/O (the POSIX module), HTTP servers (there's a server and
-        a client implementation in the HTTP module), generic TCP
-        servers (the TCP module), DNS lookups (the DNS module) and
-        several others. It's also possible to write your own according
-        to the CommonJS specification.</p>
-      </div>
-    </div>
-
-    <div class="slide">
-      <h1>Hello, Interwebs!</h1>
-      <p>Node.js helps us build servers. Here's a simple HTTP server.</p>
-      <p><pre><code class="javascript">var sys  = require("sys"),
-    http = require("http");
-http.createServer(function(request, response) {
-  var headers = { "Content-Type": "text/plain" };
-  response.sendHeader(200, headers);
-  response.sendBody("Hello World\n");
-  response.finish();
-}).listen(8000);
-sys.puts("&gt; Running at http://127.0.0.1:8000/");</code></pre><p>
-    <p><pre><code class="bash">node hello-interwebs.js
-&gt; Running at http://127.0.0.1:8000/</code></pre></p>
-      <div class="handout">
-        <p>Printing to the screen is great, but node.js is about
-        building servers. I mentioned in the last slide that there's a
-        module for HTTP. Here's how it can be used to produce a simple
-        web server. Run the code and you'll get a server listening on
-        port 8000 that'll say "Hello World" to anyone that connects.</p>
-      </div>
-    </div>
-
-    <div class="slide">
-      <h1>Pointless Benchmark (1)</h1>
-      <p><img src="../../media/node-js-concurrency-speed.jpg" /></p>
-      <div class="handout">
-        <p>No presentation about a new technology would be complete
-        without some pretty graphs of pointless benchmarks, so here one
-        is. This shows how node.js compares to Apache serving static
-        files in terms of speed compared to the number of concurrent
-        connections to the server.</p>
-      </div>
-    </div>
-
-    <div class="slide">
-      <h1>Pointless Benchmark (2)</h1>
-      <p><img src="../../media/node-js-memory-use.jpg" /></p>
-      <div class="handout">
-        <p>Here's the memory use for each server during the benchmark.
-        As you can see, ______ wins out against _______. So if you're
-        ever running benchmarks and want the best response there,
-        y'know, use that.</p>
-      </div>
-    </div>
 
     <div class="slide">
       <h1>Questions and contact details</h1>
