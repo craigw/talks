@@ -114,10 +114,10 @@
   doSomething(data);</pre></code>
       <p>Evented I/O:</p>
       <pre><code>file.read("/foo/bar", function(data) {
-        // called after data is read
-        doSomething(data);
-      });
-      otherThing(); // execute immediately;</code></pre>
+  // called after data is read
+  doSomething(data);
+});
+otherThing(); // execute immediately;</code></pre>
       <div class="handout">
         <p>Traditional I/O means that when you read a file you have to
         wait for the data to be read before you can do anything else.
@@ -150,7 +150,7 @@
 }</pre></code>
       <p>Import modules using <code>require</code>.</p>
       <pre><code class="javascript">var math = require("./math");
-  math.sum(1, 2); // => 3</code></pre>
+math.sum(1, 2); // => 3</code></pre>
       <div class="handout">
         <p>Node.js is easily extensible because it makes use of
         CommonJS, a simple standard for building Javascript
@@ -250,12 +250,12 @@ tcp.createServer(function(socket) {
       <p>Promises emit events and you can define callbacks on them.</p>
       <p>Some strangeness about ordering - requires a re-think.</p>
       <pre><code class="javascript">posix.rename("/tmp/hello", "/tmp/world");
-      posix.unlink("/tmp/world");</code></pre>
+posix.unlink("/tmp/world");</code></pre>
       <p>Instead:</p>
       <pre><code class="javascript">var promise = posix.rename("/tmp/hello", "/tmp/world");
-      promise.addCallback(function() {
-        posix.unlink("/tmp/world");
-      };</code></pre>
+promise.addCallback(function() {
+  posix.unlink("/tmp/world");
+};</code></pre>
       <div class="handout">
         <p>... promises ...</p>
       </div>
