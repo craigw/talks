@@ -1,5 +1,7 @@
-RewriteRule 2008/bbc/high-availability(.html)? 2008/high-availability
-RewriteRule 2010/javascript-london/getting-started-with-node-js(.html)? 2010/node-js-introduction
+RedirectPermanent /~craig/talks/2008/bbc/high-availability.html /~craig/talks/2008/high-availability
+RedirectPermanent /~craig/talks/2008/bbc/high-availability /~craig/talks/2008/high-availability
+RedirectPermanent /~craig/talks/2010/javascript-london/getting-started-with-node-js.html /~craig/talks/2010/nodejs-introduction
+RedirectPermanent /~craig/talks/2010/javascript-london/getting-started-with-node-js /~craig/talks/2010/nodejs-introduction
 
 RewriteRule ^([^.]+)$ $1.html [QSA]
 IndexIgnore talks/ui
